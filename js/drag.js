@@ -18,6 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				if (moving) {
 
+					var xOffset = block.offsetWidth / 2;
+					
+					var yOffset = block.offsetHeight / 2;
+
+					console.log(yOffset);
+
 					console.log(block);
 
 					xCord = event.clientX;
@@ -25,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 					document.getElementById('x-coord').textContent = xCord + 'px';
 					document.getElementById('y-coord').textContent = yCord + 'px';
+
+
+
+					yCord = yCord - yOffset;
+					xCord = xCord - xOffset;
 
 					var pos = 'top: ' + yCord + "px; left: " + xCord + "px;";
 
@@ -34,16 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 			});
 		}
-		
-
-		
-
-		
-
-		if (target.classList.contains('draggable')) {
-			target.style.backgroundColor = "black";
-		}
-
 		
 	});
 
