@@ -10,22 +10,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		var target = event.target;
 
-		moving = true;
+		if (target.classList.contains('draggable')) {
+			moving = true;
+			var block = target;
 
-		document.addEventListener('mousemove', function(event) {
+			block.addEventListener('mousemove', function(event) {
 
-			if (moving) {
+				if (moving) {
 
-				xCord = event.clientX;
-				yCord = event.clientY;
+					console.log(block);
 
-				document.getElementById('x-coord').textContent = xCord;
-				document.getElementById('y-coord').textContent = yCord;
-			}
-			
-		});
+					xCord = event.clientX;
+					yCord = event.clientY;
 
-		console.log(target);
+					document.getElementById('x-coord').textContent = xCord + 'px';
+					document.getElementById('y-coord').textContent = yCord + 'px';
+
+					var pos = 'top: ' + yCord + "px; left: " + xCord + "px;";
+
+					block.setAttribute('style', pos);
+
+				}
+				
+			});
+		}
+		
+
+		
+
+		
 
 		if (target.classList.contains('draggable')) {
 			target.style.backgroundColor = "black";
