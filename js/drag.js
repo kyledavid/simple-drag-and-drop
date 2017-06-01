@@ -2,54 +2,59 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-	var xCord = 0;
-	var yCord = 0;
-	var moving = false;
+	var xCord = 0; // current cursor x position
+	var yCord = 0; // current cursor y position
+	var moving = false; // enables/disables box movement
+	var draggables = document.querySelectorAll('.draggable'); // get all our draggable items
 
-	document.addEventListener('mousedown', function(event) {
+	draggables.forEach(function(box) {	
+		// initiate drag function when draggable item is clicked
+		box.addEventListener('mousedown', initDrag); 
+		// stop drag of item on mouseup
+		box.addEventListener('mouseup', endDrag); 
+	});
 
-		var target = event.target;
-
-		if (target.classList.contains('draggable')) {
-			moving = true;
-			var block = target;
-
-			block.addEventListener('mousemove', function(event) {
-
-				if (moving) {
-
-					var xOffset = block.offsetWidth / 2;
-					
-					var yOffset = block.offsetHeight / 2;
-
-					console.log(yOffset);
-
-					console.log(block);
-
-					xCord = event.clientX;
-					yCord = event.clientY;
-
-					document.getElementById('x-coord').textContent = xCord + 'px';
-					document.getElementById('y-coord').textContent = yCord + 'px';
-
-
-
-					yCord = yCord - yOffset;
-					xCord = xCord - xOffset;
-
-					var pos = 'top: ' + yCord + "px; left: " + xCord + "px;";
-
-					block.setAttribute('style', pos);
-
-				}
-				
-			});
-		}
+	// begin dragging when item is clicked
+	function initDrag(event) {
 		
-	});
+		// select target to be dragged
+		var block = event.target; 
+		// because the mouse was clicked, allow movement
+		moving = true;
+		// give dragged item higest z index so others aren't accidentally selected
+		block.classList.add('dragged');
+		// update the position of the block when client mouse moves
+		block.addEventListener('mousemove', function(event) {
+			// run if movement is allowed
+			if (moving) {
+				// account for the dimensions of our box, divied them by 2 so cursor will be centered
+				var xOffset = block.offsetWidth / 2;
+				var yOffset = block.offsetHeight / 2;
+				// get the position of the cursor relative to the viewport
+				xCord = event.clientX;
+				yCord = event.clientY;
+				// if scrolled, add the vertical scroll to the y coordinate to allow absolute positioning to work correctly
+				if (window.scrollY) {yCord += window.scrollY;}
+				// display our coordinates for testing
+				document.getElementById('x-coord').textContent = xCord + 'px';
+				document.getElementById('y-coord').textContent = yCord + 'px';
+				// subtract offsets from cursor to center box over cursor
+				yCord = yCord - yOffset;
+				xCord = xCord - xOffset;
+				// create inline styles for positioning box
+				var pos = 'top: ' + yCord + "px; left: " + xCord + "px;";
+				// set inline styles for box
+				block.setAttribute('style', pos);
+			}
+		});
+	}
 
-	document.addEventListener('mouseup', function(event) {
+	// run on mouseup
+	function endDrag(event) {
+		// put box back to original z index
+		event.target.classList.remove('dragged');
+		// mouse is up so we should no longer allow movement
 		moving = false;
-	});
+	}
 
 });
