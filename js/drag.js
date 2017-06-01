@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// begin dragging when item is clicked
 	function initDrag(event) {
-		
 		// select target to be dragged
 		var block = event.target; 
 		// because the mouse was clicked, allow movement
@@ -27,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		block.addEventListener('mousemove', function(event) {
 			// run if movement is allowed
 			if (moving) {
-				// account for the dimensions of our box, divied them by 2 so cursor will be centered
+				// account for the dimensions of our box, divied them by 2 so box will be centered on cursor
 				var xOffset = block.offsetWidth / 2;
 				var yOffset = block.offsetHeight / 2;
 				// get the position of the cursor relative to the viewport
